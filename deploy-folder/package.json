@@ -1,0 +1,32 @@
+{
+  "name": "skale-s2s-tokens",
+  "version": "1.0.0",
+  "description": "SKALE S2S Token Bridge",
+  "main": "index.js",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "deploy:calypso-testnet": "hardhat deploy --network calypso-testnet"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "contributors": [
+    {
+      "name": "Sawyer Cutler",
+      "email": "sawyer@dirtroad.dev",
+      "url": "https://dirtroad.dev"
+    }
+  ],
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^2.0.0",
+    "dotenv": "^16.0.3",
+    "hardhat": "^2.12.0",
+    "hardhat-deploy": "^0.11.20",
+    "hardhat-deploy-ethers": "^0.3.0-beta.13"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.7.3",
+    "@openzeppelin/contracts-upgradeable": "^4.7.3"
+  }
+}

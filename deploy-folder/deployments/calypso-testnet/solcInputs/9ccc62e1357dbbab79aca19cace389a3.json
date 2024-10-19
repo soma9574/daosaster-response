@@ -1,0 +1,35 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "contracts/SimpleTest.sol": {
+      "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.17;\n\ncontract SimpleTest {\n    string public message;\n\n    constructor(string memory _message) {\n        message = _message;\n    }\n\n    function setMessage(string memory _newMessage) public {\n        message = _newMessage;\n    }\n\n    function getMessage() public view returns (string memory) {\n        return message;\n    }\n}\n"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": false,
+      "runs": 200
+    },
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode",
+          "evm.methodIdentifiers",
+          "metadata",
+          "devdoc",
+          "userdoc",
+          "storageLayout",
+          "evm.gasEstimates"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    },
+    "metadata": {
+      "useLiteralContent": true
+    }
+  }
+}

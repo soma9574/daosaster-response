@@ -1,0 +1,166 @@
+{
+    "log": true,
+    "taskName": "verify:verify",
+    "collab_land": {
+        "tags": ["collab"],
+        "alex": {
+            "contract": "AlexMasmej",
+            "verifyPath": "contracts/ERC20/Collab.Land/AlexMasmej.sol:AlexMasmej",
+            "tag": "alex"
+        },
+        "fwb": {
+            "contract": "FriendsWithBenefits",
+            "verifyPath": "contracts/ERC20/Collab.Land/FriendsWithBenefits.sol:FriendsWithBenefits",
+            "tag": "fwb"
+        },
+        "gcr": {
+            "contract": "GlobalCoinResearch",
+            "verifyPath": "contracts/ERC20/Collab.Land/GlobalCoinResearch.sol:GlobalCoinResearch",
+            "tag": "gcr"
+        },
+        "hero": {
+            "contract": "Hero",
+            "verifyPath": "contracts/ERC20/Collab.Land/Hero.sol:Hero",
+            "tag": "hero"
+        },
+        "page": {
+            "contract": "Page",
+            "verifyPath": "contracts/ERC20/Collab.Land/Page.sol:Page",
+            "tag": "page"
+        },
+        "squig": {
+            "contract": "SquiggleDAOToken",
+            "verifyPath": "contracts/ERC20/Collab.Land/SquiggleDAOToken.sol:SquiggleDAOToken",
+            "tag": "squig"
+        },
+        "warp": {
+            "contract": "Warp",
+            "verifyPath": "contracts/ERC20/Collab.Land/Warp.sol:Warp",
+            "tag": "warp"
+        }
+    },
+    "europa": {
+        "tags": ["europa"],
+        "hmkr": {
+            "contract": "Hitmakr",
+            "verifyPath": "contracts/ERC20/Europa/Hitmakr.sol:Hitmakr",
+            "tag": "HMKR"
+        },
+        "link": {
+            "contract": "LinkToken",
+            "verifyPath": "contracts/ERC20/Europa/Link.sol:LinkToken",
+            "tag": "link"
+        },
+        "sushi": {
+            "contract": "SushiToken",
+            "verifyPath": "contracts/ERC20/Europa/Sushi.sol:SushiToken",
+            "tag": "sushi"
+        },
+        "wct1": {
+            "contract": "WrappedCarToken1",
+            "verifyPath": "contracts/ERC20/Europa/wCT1.sol:WrappedCarToken1",
+            "tag": "wct1"
+        },
+        "pepe": {
+            "contract": "PepeToken",
+            "verifyPath": "contracts/ERC20/Europa/Pepe.sol:PepeToken",
+            "tag": "pepe"
+        }
+    },
+    "ima": {
+        "tags": ["IMA", "Default"],
+        "cmps": {
+            "contract": "EuropaCMPS",
+            "verifyPath": "contracts/ERC20/IMA/EuropaCMPS.sol:EuropaCMPS",
+            "tag": "CMPS"
+        },
+        "dai": {
+            "contract": "EuropaDAI",
+            "verifyPath": "contracts/ERC20/IMA/EuropaDAI.sol:EuropaDAI",
+            "tag": "DAI"
+        },
+        "eth": {
+            "contract": "EuropaETH",
+            "verifyPath": "contracts/ERC20/IMA/EuropaETH.sol:EuropaETH",
+            "tag": "ETH"
+        },
+        "link": {
+            "contract": "EuropaLINK",
+            "verifyPath": "contracts/ERC20/IMA/EuropaLINK.sol:EuropaLINK",
+            "tag": "LINK"
+        },
+        "ruby": {
+            "contract": "EuropaRUBY",
+            "verifyPath": "contracts/ERC20/IMA/EuropaRUBY.sol:EuropaRUBY",
+            "tag": "RUBY"
+        },
+        "skl": {
+            "contract": "EuropaSKL",
+            "verifyPath": "contracts/ERC20/IMA/EuropaSKL.sol:EuropaSKL",
+            "tag": "SKL"
+        },
+        "usdc": {
+            "contract": "EuropaUSDC",
+            "verifyPath": "contracts/ERC20/IMA/EuropaUSDC.sol:EuropaUSDC",
+            "tag": "USDC"
+        },
+        "usdp": {
+            "contract": "EuropaUSDP",
+            "verifyPath": "contracts/ERC20/IMA/EuropaUSDP.sol:EuropaUSDP",
+            "tag": "USDP"
+        },
+        "usdt": {
+            "contract": "EuropaUSDT",
+            "verifyPath": "contracts/ERC20/IMA/EuropaUSDT.sol:EuropaUSDT",
+            "tag": "USDT"
+        },
+        "wbtc": {
+            "contract": "EuropaWBTC",
+            "verifyPath": "contracts/ERC20/IMA/EuropaWBTC.sol:EuropaWBTC",
+            "tag": "WBTC"
+        }
+    },
+    "unlimited": {
+        "weth": {
+            "contract": "CalypsoWETH",
+            "verifyPath": "contracts/Calypso/ERC20/Unlimited/CalypsoWETH.sol:CalypsoWETH",
+            "tag": "uWETH"
+        },
+        "link": {
+            "contract": "CalypsoLINK",
+            "verifyPath": "contracts/Calypso/ERC20/Unlimited/CalypsoLINK.sol:CalypsoLINK",
+            "tag": "uLINK"
+        },
+        "ruby": {
+            "contract": "CalypsoRuby",
+            "verifyPath": "contracts/Calypso/ERC20/Unlimited/CalypsoRUBY.sol:CalypsoRUBY",
+            "tag": "uRUBY"
+        },
+        "skl": {
+            "contract": "CalypsoSKL",
+            "verifyPath": "contracts/Calypso/ERC20/Unlimited/CalypsoSKL.sol:CalypsoSKL",
+            "tag": "uSKL"
+        },
+        "usdc": {
+            "contract": "CalypsoUSDC",
+            "verifyPath": "contracts/Calypso/ERC20/Unlimited/CalypsoUSDC.sol:CalypsoUSDC",
+            "tag": "uUSDC"
+        },
+        "usdp": {
+            "contract": "CalypsoUSDP",
+            "verifyPath": "contracts/Calypso/ERC20/Unlimited/CalypsoWETH.sol:CalypsoUSDP",
+            "tag": "uUSDP"
+        },
+        "usdt": {
+            "contract": "CalypsoUSDT",
+            "verifyPath": "contracts/Calypso/ERC20/Unlimited/CalypsoUSDT.sol:CalypsoUSDT",
+            "tag": "uUSDT"
+        },
+        "wbtc": {
+            "contract": "CalypsoWBTC",
+            "verifyPath": "contracts/Calypso/ERC20/Unlimited/CalypsoWETH.sol:CalypsoWBTC",
+            "tag": "uWBTC"
+        }
+    }
+
+}
