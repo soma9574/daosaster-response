@@ -72,6 +72,14 @@ function MintNFT() {
 
   return (
     <div className="relative h-screen w-full">
+      <div className="w-full flex justify-between items-center mb-2">
+        <div className="w-1/3"></div>
+        <h1 className="text-4xl font-bold text-center w-1/3">Tokenize the AI Agents for Better Good</h1>
+        <div className="w-1/3"></div>
+      </div>
+      <p className="text-xl text-gray-600 italic text-center mb-8">
+        "Tokenize from drones to Omi gel (friend)"
+      </p>
       {/* <div className="absolute top-4 left-4 bg-gray-800 text-white p-2 rounded">
         Contract Balance: {contractBalance} ETH
       </div> */}

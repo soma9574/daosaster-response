@@ -25,7 +25,7 @@ async function spgMintIp() {
     // Log the event data
     const event = receipt.logs[0];
     const decodedEvent = contract.interface.parseLog(event);
-    console.log('Event data:', decodedEvent.args);
+    console.log("Transaction successful");
     
   } catch (error) {
     console.error('Error:', error);

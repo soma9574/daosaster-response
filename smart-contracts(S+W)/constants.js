@@ -1,6 +1,6 @@
 module.exports = {
     CONTRACT_ADDRESS: "0xba456adabeC5E89E61CF20f2697A39F8b8c47CB2",
-    BLOB_ID: "_E_5VTJJEE4O-TaMca0N5TRMoD4u6vUPgqdlnB667fQ",
+    BLOB_ID: "KG6wYE2EAsZcPwStMNhfTbsSak27jOvBUz86vIpBxdI",
     ABI: [
       {
         "inputs": [

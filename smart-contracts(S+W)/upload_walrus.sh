@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Set variables
-UPLOAD_FILE="fire.jpg"
+UPLOAD_FILE="logo_coin.png"
 OUTPUT_FILE="walrus_response.txt"
 WALRUS_URL="https://publisher.walrus-testnet.walrus.space/v1/store?epochs=5"
 
