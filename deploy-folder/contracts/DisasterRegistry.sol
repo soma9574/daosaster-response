@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "./Disaster.sol";
+import "./agents/LocalAgent.sol"; // Add this import
 
-contract DisasterRegistry is Ownable {
+contract DisasterRegistry {
     using SafeMath for uint256;
 
     Disaster[] public disasters;
@@ -26,6 +26,11 @@ contract DisasterRegistry is Ownable {
         Disaster.AgentType agentType
     );
 
+    event LocalAgentCreated(
+        address indexed localAgentAddress,
+        uint256 indexed disasterId
+    );
+
     function reportDisaster(
         int256 _latitude,
         int256 _longitude,
@@ -42,10 +47,14 @@ contract DisasterRegistry is Ownable {
                 _timestamp,
                 msg.sender,
                 _agentType,
-                address(0) // Replace with actual DAO address
+                address(0) // Replace with actual DAO address if needed
             );
             uint256 newDisasterId = disasters.length;
             disasters.push(newDisaster);
+
+            // Create LocalAgent
+            LocalAgent localAgent = new LocalAgent(address(this));
+
             emit DisasterCreated(
                 newDisasterId,
                 address(newDisaster),
@@ -54,6 +63,7 @@ contract DisasterRegistry is Ownable {
                 _timestamp,
                 _agentType
             );
+            emit LocalAgentCreated(address(localAgent), newDisasterId);
         } else {
             // Attach to existing disaster
             disasters[existingDisasterId].attachAgent(msg.sender, _agentType);
