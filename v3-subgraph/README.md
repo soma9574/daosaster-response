@@ -1,5 +1,5 @@
 
-## V3 Disaster Management Subgraph
+## Disaster Management Subgraph
 
 This subgraph is built to index and query data related to the disaster management system on SKALE. It extracts relevant data from smart contracts such as `DisasterRegistry`, `DisasterResponseDAO`, and various agent contracts like `GlobalAgent`, `LocalAgent`, and `RegionalAgent`. The subgraph architecture allows for efficient querying of disaster events, agent interactions, DAO proposals, and votes, enabling a decentralized disaster management system.
 
