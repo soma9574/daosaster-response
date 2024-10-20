@@ -1,0 +1,23 @@
+# Environment variables
+.env
+
+# Hardhat files
+cache
+artifacts
+
+# Ignore package-lock.json
+package-lock.json
+
+# Ignore coverage directory
+coverage
+
+# Ignore typechain directory
+typechain
+typechain-types
+
+# Ignore gas report
+gas-report.txt
+
+# Ignore deployment artifacts
+deployments
+
