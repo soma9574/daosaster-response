@@ -37,7 +37,6 @@ contract_abi = [
         "stateMutability": "nonpayable",
         "type": "function"
     }
-    # Add other ABI elements if needed
 ]
 
 # Initialize contract instance
