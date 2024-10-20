@@ -28,7 +28,7 @@ npx hardhat deploy --tags disaster-registry --network calypso-testnet
 
 ## Smart Contracts Overview
 
-### [Disaster.sol](https://giant-half-dual-testnet.explorer.testnet.skalenodes.com/0x3B03E8D98C2c020E8D809fb2B55A85451e4e11C3)
+### [Disaster.sol](https://giant-half-dual-testnet.explorer.testnet.skalenodes.com/0x3110Bf2e1e34E92923b78156dc5735d42B313bbA)
 
 The `Disaster` contract tracks individual disaster events, recording the latitude, longitude, timestamp, and associated agents. It allows new agents (e.g., first responders, volunteers) to be attached to specific disasters.
 
