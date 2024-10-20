@@ -50,19 +50,6 @@ export class Disaster extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get disasterContract(): Bytes {
-    let value = this.get("disasterContract");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toBytes();
-    }
-  }
-
-  set disasterContract(value: Bytes) {
-    this.set("disasterContract", Value.fromBytes(value));
-  }
-
   get latitude(): BigInt {
     let value = this.get("latitude");
     if (!value || value.kind == ValueKind.NULL) {
@@ -146,17 +133,30 @@ export class Agent extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get agentType(): BigInt {
-    let value = this.get("agentType");
+  get address(): Bytes {
+    let value = this.get("address");
     if (!value || value.kind == ValueKind.NULL) {
       throw new Error("Cannot return null for a required field.");
     } else {
-      return value.toBigInt();
+      return value.toBytes();
     }
   }
 
-  set agentType(value: BigInt) {
-    this.set("agentType", Value.fromBigInt(value));
+  set address(value: Bytes) {
+    this.set("address", Value.fromBytes(value));
+  }
+
+  get agentType(): i32 {
+    let value = this.get("agentType");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set agentType(value: i32) {
+    this.set("agentType", Value.fromI32(value));
   }
 
   get disaster(): string {
@@ -170,6 +170,22 @@ export class Agent extends Entity {
 
   set disaster(value: string) {
     this.set("disaster", Value.fromString(value));
+  }
+
+  get droneData(): DroneDataLoader {
+    return new DroneDataLoader(
+      "Agent",
+      this.get("id")!.toString(),
+      "droneData",
+    );
+  }
+
+  get resourceLocations(): ResourceLocationLoader {
+    return new ResourceLocationLoader(
+      "Agent",
+      this.get("id")!.toString(),
+      "resourceLocations",
+    );
   }
 }
 
@@ -484,6 +500,246 @@ export class Individual extends Entity {
   }
 }
 
+export class DroneData extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save DroneData entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type DroneData must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
+      );
+      store.set("DroneData", id.toString(), this);
+    }
+  }
+
+  static loadInBlock(id: string): DroneData | null {
+    return changetype<DroneData | null>(store.get_in_block("DroneData", id));
+  }
+
+  static load(id: string): DroneData | null {
+    return changetype<DroneData | null>(store.get("DroneData", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get agent(): string {
+    let value = this.get("agent");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set agent(value: string) {
+    this.set("agent", Value.fromString(value));
+  }
+
+  get timestamp(): BigInt {
+    let value = this.get("timestamp");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set timestamp(value: BigInt) {
+    this.set("timestamp", Value.fromBigInt(value));
+  }
+
+  get latitude(): BigInt {
+    let value = this.get("latitude");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set latitude(value: BigInt) {
+    this.set("latitude", Value.fromBigInt(value));
+  }
+
+  get longitude(): BigInt {
+    let value = this.get("longitude");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set longitude(value: BigInt) {
+    this.set("longitude", Value.fromBigInt(value));
+  }
+
+  get altitude(): BigInt {
+    let value = this.get("altitude");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set altitude(value: BigInt) {
+    this.set("altitude", Value.fromBigInt(value));
+  }
+
+  get imageDescription(): string {
+    let value = this.get("imageDescription");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set imageDescription(value: string) {
+    this.set("imageDescription", Value.fromString(value));
+  }
+
+  get emergencyAnalysis(): string {
+    let value = this.get("emergencyAnalysis");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set emergencyAnalysis(value: string) {
+    this.set("emergencyAnalysis", Value.fromString(value));
+  }
+}
+
+export class ResourceLocation extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save ResourceLocation entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type ResourceLocation must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`,
+      );
+      store.set("ResourceLocation", id.toString(), this);
+    }
+  }
+
+  static loadInBlock(id: string): ResourceLocation | null {
+    return changetype<ResourceLocation | null>(
+      store.get_in_block("ResourceLocation", id),
+    );
+  }
+
+  static load(id: string): ResourceLocation | null {
+    return changetype<ResourceLocation | null>(
+      store.get("ResourceLocation", id),
+    );
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get agent(): string {
+    let value = this.get("agent");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set agent(value: string) {
+    this.set("agent", Value.fromString(value));
+  }
+
+  get resourceType(): string {
+    let value = this.get("resourceType");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set resourceType(value: string) {
+    this.set("resourceType", Value.fromString(value));
+  }
+
+  get latitude(): BigInt {
+    let value = this.get("latitude");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set latitude(value: BigInt) {
+    this.set("latitude", Value.fromBigInt(value));
+  }
+
+  get longitude(): BigInt {
+    let value = this.get("longitude");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set longitude(value: BigInt) {
+    this.set("longitude", Value.fromBigInt(value));
+  }
+
+  get description(): string {
+    let value = this.get("description");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set description(value: string) {
+    this.set("description", Value.fromString(value));
+  }
+}
+
 export class AgentLoader extends Entity {
   _entity: string;
   _field: string;
@@ -499,6 +755,42 @@ export class AgentLoader extends Entity {
   load(): Agent[] {
     let value = store.loadRelated(this._entity, this._id, this._field);
     return changetype<Agent[]>(value);
+  }
+}
+
+export class DroneDataLoader extends Entity {
+  _entity: string;
+  _field: string;
+  _id: string;
+
+  constructor(entity: string, id: string, field: string) {
+    super();
+    this._entity = entity;
+    this._id = id;
+    this._field = field;
+  }
+
+  load(): DroneData[] {
+    let value = store.loadRelated(this._entity, this._id, this._field);
+    return changetype<DroneData[]>(value);
+  }
+}
+
+export class ResourceLocationLoader extends Entity {
+  _entity: string;
+  _field: string;
+  _id: string;
+
+  constructor(entity: string, id: string, field: string) {
+    super();
+    this._entity = entity;
+    this._id = id;
+    this._field = field;
+  }
+
+  load(): ResourceLocation[] {
+    let value = store.loadRelated(this._entity, this._id, this._field);
+    return changetype<ResourceLocation[]>(value);
   }
 }
 

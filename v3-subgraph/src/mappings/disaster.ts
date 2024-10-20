@@ -1,4 +1,4 @@
-import { BigInt, log } from '@graphprotocol/graph-ts'
+import { log } from '@graphprotocol/graph-ts'
 
 import { Agent, Disaster, HumanOrganization, Individual } from '../types/schema'
 import { AgentAttached, IndividualAdded, OrganizationAdded } from '../types/templates/Disaster/Disaster'
@@ -8,7 +8,8 @@ export function handleAgentAttached(event: AgentAttached): void {
 
   const agentId = event.params.agent.toHexString()
   const agent = new Agent(agentId)
-  agent.agentType = BigInt.fromI32(event.params.agentType)
+  agent.address = event.params.agent
+  agent.agentType = event.params.agentType
   agent.disaster = event.address.toHexString()
 
   log.info('Agent entity created with id: {}', [agent.id])
@@ -31,10 +32,14 @@ export function handleAgentAttached(event: AgentAttached): void {
 
 export function handleOrganizationAdded(event: OrganizationAdded): void {
   const organization = new HumanOrganization(event.params.organization.toHexString())
+  organization.name = event.params.name
+  organization.expertise = event.params.expertise
   organization.save()
 }
 
 export function handleIndividualAdded(event: IndividualAdded): void {
   const individual = new Individual(event.params.individual.toHexString())
+  individual.name = event.params.name
+  individual.skills = event.params.skills
   individual.save()
 }

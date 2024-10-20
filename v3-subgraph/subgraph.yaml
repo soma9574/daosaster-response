@@ -9,31 +9,34 @@ features:
 dataSources:
   - kind: ethereum/contract
     name: DisasterRegistry
-    network: skale
+    network: skale-calypso-testnet
     source:
+      address: '0x0948e40e40860A02956E70E814c8C5088f4049E0'
       abi: DisasterRegistry
-      address: '0xF706b3d39C0B4ffF3622323bdA35fF1FE031d8A0'
-      startBlock: 2313611
+      startBlock: 2316870
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
       language: wasm/assemblyscript
-      file: ./src/mappings/disaster-registry.ts
       entities:
         - Disaster
         - Agent
+        - LocalAgent
       abis:
         - name: DisasterRegistry
           file: ./abis/DisasterRegistry.json
-        - name: Disaster
-          file: ./abis/Disaster.json
       eventHandlers:
         - event: DisasterCreated(indexed uint256,address,int256,int256,uint256,uint8)
           handler: handleDisasterCreated
+        - event: AgentAttachedToDisaster(indexed uint256,address,uint8)
+          handler: handleAgentAttachedToDisaster
+        - event: LocalAgentCreated(indexed address,indexed uint256)
+          handler: handleLocalAgentCreated
+      file: ./src/mappings/disaster-registry.ts
 
   - kind: ethereum/contract
     name: DisasterResponseDAO
-    network: skale
+    network: skale-calypso-testnet
     source:
       abi: DisasterResponseDAO
       address: '0x3E625A41194b29029b7e1e75503CCCFf93497D52'
@@ -60,14 +63,13 @@ dataSources:
 templates:
   - name: Disaster
     kind: ethereum/contract
-    network: skale
+    network: skale-calypso-testnet
     source:
       abi: Disaster
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
       language: wasm/assemblyscript
-      file: ./src/mappings/disaster.ts
       entities:
         - Disaster
         - Agent
@@ -87,3 +89,66 @@ templates:
           handler: handleOrganizationAdded
         - event: IndividualAdded(indexed address,string,string)
           handler: handleIndividualAdded
+      file: ./src/mappings/disaster.ts
+
+  - name: LocalAgent
+    kind: ethereum/contract
+    network: skale-calypso-testnet
+    source:
+      abi: LocalAgent
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - DroneData
+        - ResourceLocation
+      abis:
+        - name: LocalAgent
+          file: ./abis/LocalAgent.json
+      eventHandlers:
+        - event: DroneDataUpdated(indexed address,uint256,int256,int256,uint256,string,string)
+          handler: handleDroneDataUpdated
+        - event: ResourceLocationAdded(indexed address,string,int256,int256,string)
+          handler: handleResourceLocationAdded
+      file: ./src/mappings/local-agent.ts
+  # - name: GlobalAgent
+  #   kind: ethereum/contract
+  #   network: skale-calypso-testnet
+  #   source:
+  #     address: '0x5369FB31a3552370ddd26b90a6c81B22DD4d55df'
+  #     abi: GlobalAgent
+  #     startBlock: 2315984
+  #   mapping:
+  #     kind: ethereum/events
+  #     apiVersion: 0.0.7
+  #     language: wasm/assemblyscript
+  #     entities:
+  #       - GlobalAgent
+  #     abis:
+  #       - name: GlobalAgent
+  #         file: ./abis/GlobalAgent.json
+  #     eventHandlers:
+  #       - event: GlobalDisasterReported(string)
+  #         handler: handleGlobalDisasterReported
+  #     file: ./src/mappings/global-agent.ts
+  # - name: RegionalAgent
+  #   kind: ethereum/contract
+  #   network: skale-calypso-testnet
+  #   source:
+  #     address: '0x7B39bfCF0aEF56C67c9575e3F42dfFf734fa1557'
+  #     abi: RegionalAgent
+  #     startBlock: 2315984
+  #   mapping:
+  #     kind: ethereum/events
+  #     apiVersion: 0.0.7
+  #     language: wasm/assemblyscript
+  #     entities:
+  #       - RegionalAgent
+  #     abis:
+  #       - name: RegionalAgent
+  #         file: ./abis/RegionalAgent.json
+  #     eventHandlers:
+  #       - event: RegionalDisasterReported(string)
+  #         handler: handleRegionalDisasterReported
+  #     file: ./src/mappings/regional-agent.ts
