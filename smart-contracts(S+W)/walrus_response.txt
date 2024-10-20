@@ -1,0 +1,1 @@
+{"alreadyCertified":{"blobId":"_E_5VTJJEE4O-TaMca0N5TRMoD4u6vUPgqdlnB667fQ","eventOrObject":{"Event":{"txDigest":"3wArs9yRCoGE5f1FhfYHHgFkRjk4mYPxpZKBtx1wcsge","eventSeq":"0"}},"endEpoch":10}}
