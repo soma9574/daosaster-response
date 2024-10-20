@@ -1,5 +1,27 @@
-node_modules
+# Node modules
+node_modules/
+
+# Build files
+dist/
+build/
+
+# Environment variables
 .env
+
+# IDE files
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Hardhat files
+cache/
+artifacts/
+
+# Miscellaneous
+.DS_Store
+
 coverage
 coverage.json
 typechain
@@ -8,4 +30,3 @@ typechain-types
 #Hardhat files
 cache
 artifacts
-.DS_Store

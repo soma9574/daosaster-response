@@ -40,17 +40,15 @@ const config: HardhatUserConfig = {
   },
   etherscan: {
     apiKey: {
-      "calypso-testnet": "na",
+      calypsoTestnet: "YOUR_CALYPSO_TESTNET_API_KEY",
     },
     customChains: [
       {
-        network: "calypso-testnet",
-        chainId: 974399131,
+        network: "calypsoTestnet",
+        chainId: 1564830818, // Calypso testnet chain ID
         urls: {
-          apiURL:
-            "https://giant-half-dual-testnet.explorer.testnet.skalenodes.com/api",
-          browserURL:
-            "https://giant-half-dual-testnet.explorer.testnet.skalenodes.com",
+          apiURL: "https://explorer.calypsohub.network/api",
+          browserURL: "https://explorer.calypsohub.network",
         },
       },
     ],

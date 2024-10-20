@@ -1,110 +1,74 @@
+const { ethers } = require("hardhat");
+const { verify } = require("../utils/verify");
+
 const func = async function (hre) {
-  const { deployments, getNamedAccounts, ethers } = hre;
-  const { deploy } = deployments;
-  const { deployer } = await getNamedAccounts();
-
-  // Deploy agent contracts
-  const globalAgent = await deploy("GlobalAgent", {
-    from: deployer,
-    args: [],
-    log: true,
-  });
-
-  const regionalAgent = await deploy("RegionalAgent", {
-    from: deployer,
-    args: [],
-    log: true,
-  });
-
-  const localAgent = await deploy("LocalAgent", {
-    from: deployer,
-    args: [],
-    log: true,
-  });
-
-  // Deploy DisasterResponseDAO
-  const tokenAddress = await deployMockToken(hre);
-  const quorum = 5;
-  const votingPeriod = 86400;
-
-  const disasterResponseDAO = await deploy("DisasterResponseDAO", {
-    from: deployer,
-    args: [tokenAddress, quorum, votingPeriod],
-    log: true,
-  });
-
-  // Deploy HumanOrganization and Individual contracts
-  const humanOrganization = await deploy("HumanOrganization", {
-    from: deployer,
-    args: ["Test Organization", "Emergency Response"],
-    log: true,
-  });
-
-  const individual = await deploy("Individual", {
-    from: deployer,
-    args: ["John Doe", "First Aid, Search and Rescue"],
-    log: true,
-  });
-
-  // Deploy DisasterRegistry
-  const disasterRegistry = await deploy("DisasterRegistry", {
-    from: deployer,
-    args: [],
-    log: true,
-  });
-
-  // Deploy a sample Disaster contract
-  const sampleDisaster = await deploy("Disaster", {
-    from: deployer,
-    args: [
-      123456,
-      789012,
-      Math.floor(Date.now() / 1000),
-      deployer,
-      0,
-      disasterResponseDAO.address,
-    ],
-    log: true,
-  });
-
-  console.log("All contracts deployed successfully!");
-  console.log("GlobalAgent address:", globalAgent.address);
-  console.log("RegionalAgent address:", regionalAgent.address);
-  console.log("LocalAgent address:", localAgent.address);
-  console.log("DisasterResponseDAO address:", disasterResponseDAO.address);
-  console.log("HumanOrganization address:", humanOrganization.address);
-  console.log("Individual address:", individual.address);
-  console.log("DisasterRegistry address:", disasterRegistry.address);
-  console.log("Sample Disaster address:", sampleDisaster.address);
-
-  // Return deployed contract addresses for testing
-  return {
-    globalAgent,
-    regionalAgent,
-    localAgent,
-    disasterResponseDAO,
-    humanOrganization,
-    individual,
-    disasterRegistry,
-    sampleDisaster,
-    tokenAddress,
-  };
-};
-
-// Helper function to deploy a mock token for testing
-async function deployMockToken(hre) {
   const { deployments, getNamedAccounts } = hre;
   const { deploy } = deployments;
   const { deployer } = await getNamedAccounts();
 
-  const mockToken = await deploy("MockToken", {
-    from: deployer,
-    args: ["Mock Token", "MTK", ethers.utils.parseEther("1000000")],
-    log: true,
-  });
+  // Helper function to deploy and verify
+  async function deployAndVerify(contractName, args = []) {
+    const contract = await deploy(contractName, {
+      from: deployer,
+      args: args,
+      log: true,
+      waitConfirmations: 1,
+    });
 
-  return mockToken.address;
-}
+    console.log(`${contractName} deployed to:`, contract.address);
+
+    if (hre.network.name === "skaleCalypso") {
+      console.log("Verifying contract...");
+      try {
+        await verify(contract.address, args);
+      } catch (e) {
+        console.log("Verification error:", e);
+      }
+    }
+
+    return contract;
+  }
+
+  // Deploy and verify contracts
+  const disasterRegistry = await deployAndVerify("DisasterRegistry");
+  const globalAgent = await deployAndVerify("GlobalAgent");
+  const regionalAgent = await deployAndVerify("RegionalAgent");
+  const localAgent = await deployAndVerify("LocalAgent", [
+    disasterRegistry.address,
+  ]);
+  const mockToken = await deployAndVerify("MockToken", [
+    "Mock Token",
+    "MTK",
+    ethers.utils.parseEther("1000000"),
+  ]);
+  const disasterResponseDAO = await deployAndVerify("DisasterResponseDAO", [
+    mockToken.address,
+    5,
+    86400,
+  ]);
+  const humanOrganization = await deployAndVerify("HumanOrganization", [
+    "Test Organization",
+    "Emergency Response",
+  ]);
+  const individual = await deployAndVerify("Individual", [
+    "John Doe",
+    "First Aid, Search and Rescue",
+  ]);
+
+  console.log("All contracts deployed and verified successfully!");
+
+  // Return deployed contract addresses
+  return {
+    disasterRegistry: disasterRegistry.address,
+    globalAgent: globalAgent.address,
+    regionalAgent: regionalAgent.address,
+    localAgent: localAgent.address,
+    disasterResponseDAO: disasterResponseDAO.address,
+    humanOrganization: humanOrganization.address,
+    individual: individual.address,
+    mockToken: mockToken.address,
+  };
+};
 
 module.exports = func;
 func.tags = [
@@ -115,6 +79,5 @@ func.tags = [
   "GlobalAgent",
   "RegionalAgent",
   "LocalAgent",
-  "Disaster",
   "MockToken",
 ];

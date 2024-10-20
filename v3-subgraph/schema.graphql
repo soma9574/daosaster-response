@@ -1,6 +1,5 @@
 type Disaster @entity {
   id: ID!
-  disasterContract: Bytes!
   latitude: BigInt!
   longitude: BigInt!
   timestamp: BigInt!
@@ -9,8 +8,12 @@ type Disaster @entity {
 
 type Agent @entity {
   id: ID!
-  agentType: BigInt!
+  address: Bytes!
+  agentType: Int!
   disaster: Disaster!
+  # Remove these fields from Agent since they belong to LocalAgent
+  # droneData: [DroneData!] @derivedFrom(field: "agent")
+  # resourceLocations: [ResourceLocation!] @derivedFrom(field: "agent")
 }
 
 type Proposal @entity {
@@ -39,4 +42,32 @@ type Individual @entity {
   id: ID!
   name: String!
   skills: String!
+}
+
+type DroneData @entity {
+  id: ID!
+  agent: LocalAgent!
+  timestamp: BigInt!
+  latitude: BigInt!
+  longitude: BigInt!
+  altitude: BigInt!
+  imageDescription: String!
+  emergencyAnalysis: String!
+}
+
+type ResourceLocation @entity {
+  id: ID!
+  agent: LocalAgent!
+  resourceType: String!
+  latitude: BigInt!
+  longitude: BigInt!
+  description: String!
+}
+
+type LocalAgent @entity {
+  id: ID!
+  address: Bytes!
+  disaster: Disaster!
+  droneDatas: [DroneData!]! @derivedFrom(field: "agent")
+  resourceLocations: [ResourceLocation!]! @derivedFrom(field: "agent")
 }

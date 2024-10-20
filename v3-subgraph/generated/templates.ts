@@ -19,3 +19,17 @@ export class Disaster extends DataSourceTemplate {
     );
   }
 }
+
+export class LocalAgent extends DataSourceTemplate {
+  static create(address: Address): void {
+    DataSourceTemplate.create("LocalAgent", [address.toHex()]);
+  }
+
+  static createWithContext(address: Address, context: DataSourceContext): void {
+    DataSourceTemplate.createWithContext(
+      "LocalAgent",
+      [address.toHex()],
+      context,
+    );
+  }
+}

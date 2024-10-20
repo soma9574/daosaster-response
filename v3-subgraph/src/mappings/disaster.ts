@@ -1,4 +1,4 @@
-import { BigInt, log } from '@graphprotocol/graph-ts'
+import { log } from '@graphprotocol/graph-ts'
 
 import { Agent, Disaster, HumanOrganization, Individual } from '../types/schema'
 import { AgentAttached, IndividualAdded, OrganizationAdded } from '../types/templates/Disaster/Disaster'
@@ -7,11 +7,18 @@ export function handleAgentAttached(event: AgentAttached): void {
   log.info('handleAgentAttached called for agent: {}', [event.params.agent.toHexString()])
 
   const agentId = event.params.agent.toHexString()
-  const agent = new Agent(agentId)
-  agent.agentType = BigInt.fromI32(event.params.agentType)
+  let agent = Agent.load(agentId)
+
+  if (agent == null) {
+    log.warning('Agent not found, creating new agent: {}', [agentId])
+    agent = new Agent(agentId)
+    agent.address = event.params.agent
+  }
+
+  agent.agentType = event.params.agentType
   agent.disaster = event.address.toHexString()
 
-  log.info('Agent entity created with id: {}', [agent.id])
+  log.info('Agent entity updated with id: {}', [agent.id])
 
   agent.save()
 
@@ -20,9 +27,6 @@ export function handleAgentAttached(event: AgentAttached): void {
   // Update the Disaster entity to include this agent
   const disaster = Disaster.load(event.address.toHexString())
   if (disaster) {
-    // If you have an agents field in your Disaster entity, you can update it here
-    // disaster.agents.push(agent.id)
-    // disaster.save()
     log.info('Updated Disaster entity with id: {} to include Agent: {}', [disaster.id, agent.id])
   } else {
     log.warning('Disaster not found for address: {}', [event.address.toHexString()])
@@ -31,10 +35,14 @@ export function handleAgentAttached(event: AgentAttached): void {
 
 export function handleOrganizationAdded(event: OrganizationAdded): void {
   const organization = new HumanOrganization(event.params.organization.toHexString())
+  organization.name = event.params.name
+  organization.expertise = event.params.expertise
   organization.save()
 }
 
 export function handleIndividualAdded(event: IndividualAdded): void {
   const individual = new Individual(event.params.individual.toHexString())
+  individual.name = event.params.name
+  individual.skills = event.params.skills
   individual.save()
 }
