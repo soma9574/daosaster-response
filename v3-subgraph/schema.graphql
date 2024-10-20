@@ -46,7 +46,7 @@ type Individual @entity {
 
 type DroneData @entity {
   id: ID!
-  agent: LocalAgent! # Keep this as LocalAgent
+  agent: LocalAgent!
   timestamp: BigInt!
   latitude: BigInt!
   longitude: BigInt!
@@ -57,7 +57,7 @@ type DroneData @entity {
 
 type ResourceLocation @entity {
   id: ID!
-  agent: LocalAgent! # Keep this as LocalAgent
+  agent: LocalAgent!
   resourceType: String!
   latitude: BigInt!
   longitude: BigInt!

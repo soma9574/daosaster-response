@@ -7,12 +7,18 @@ export function handleAgentAttached(event: AgentAttached): void {
   log.info('handleAgentAttached called for agent: {}', [event.params.agent.toHexString()])
 
   const agentId = event.params.agent.toHexString()
-  const agent = new Agent(agentId)
-  agent.address = event.params.agent
+  let agent = Agent.load(agentId)
+
+  if (agent == null) {
+    log.warning('Agent not found, creating new agent: {}', [agentId])
+    agent = new Agent(agentId)
+    agent.address = event.params.agent
+  }
+
   agent.agentType = event.params.agentType
   agent.disaster = event.address.toHexString()
 
-  log.info('Agent entity created with id: {}', [agent.id])
+  log.info('Agent entity updated with id: {}', [agent.id])
 
   agent.save()
 
@@ -21,9 +27,6 @@ export function handleAgentAttached(event: AgentAttached): void {
   // Update the Disaster entity to include this agent
   const disaster = Disaster.load(event.address.toHexString())
   if (disaster) {
-    // If you have an agents field in your Disaster entity, you can update it here
-    // disaster.agents.push(agent.id)
-    // disaster.save()
     log.info('Updated Disaster entity with id: {} to include Agent: {}', [disaster.id, agent.id])
   } else {
     log.warning('Disaster not found for address: {}', [event.address.toHexString()])
