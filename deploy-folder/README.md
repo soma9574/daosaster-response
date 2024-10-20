@@ -1,42 +1,81 @@
-# SKALE - S2S Tokens 
 
-This project is a core token set that can be used to quickly get up and running with the Europa Hub liquidity.
-You will need to manually map the tokens after, however, this will get you started with token deployment and verification for all the tokens according to the naming conventions set by the Europa community.
+## SKALE Disaster Management System
 
-## Installation
-1) Run ```git clone https://github.com/Dirt-Road-Development/skale-s2s-tokens```
-2) Run ```./setup.sh```
+This project focuses on managing and responding to disaster events through a decentralized system built on SKALE. The system tracks disasters, deploys agents for disaster response, and allows for resource allocation and decision-making through a decentralized autonomous organization (DAO).
 
-## How to use
+### **Key Components**
 
-In order to utilize this repository, you must:
+-   **Disaster Tracking**: Track disasters based on geographic locations and assign agents like first responders or volunteers.
+-   **Decentralized Agents**: Agents report disasters, monitor situations, and provide resource coordination.
+-   **DAO for Governance**: A DAO structure allows for voting on resource allocation and other critical decisions.
 
-1) Have DEPLOYER_ROLE given to the address associated with the private key you provide in the .env file
-2) Have sFUEL in the account you are deploying from
+### **Installation**
 
-## Deployment
-1) Run ```npx hardhat deploy --tags <tags> --network <network_name>```
+```sh
+git clone git@github.com:soma9574/daosaster-response.git 
+cd ./deploy-folder
+``` 
 
-There are plenty of customizable options that will be covered below.
+### **Deployment**
 
-### Deploy USDC
+Deploy the disaster management contracts using Hardhat. Ensure you have the proper deployment role and sufficient sFUEL. Example:
 
-To deploy USDC, you would run the following:
+```sh 
+npx hardhat deploy --tags disaster-registry --network calypso-testnet
+``` 
 
-```shell
-    # Calypso Mainnet
-    npx hardhat deploy --tags usdc --network calypso
+----------
 
-    # Calypso Testnet
-    npx hardhat deploy --tags usdc --network calypso-staging-v3
-```
+## Smart Contracts Overview
 
-### Collab.Land Tokens
+### [Disaster.sol](https://giant-half-dual-testnet.explorer.testnet.skalenodes.com/0x3B03E8D98C2c020E8D809fb2B55A85451e4e11C3)
 
-```shell
-    # Calypso Mainnet
-    npx hardhat deploy --tags collab --network calypso
+The `Disaster` contract tracks individual disaster events, recording the latitude, longitude, timestamp, and associated agents. It allows new agents (e.g., first responders, volunteers) to be attached to specific disasters.
 
-    # Calypso Testnet
-    npx hardhat deploy --tags collab --network calypso-staging-v3
-```
+**Key Features**:
+
+-   **attachAgent**: Adds an agent (e.g., first responder, volunteer) to the disaster.
+-   **getAgents**: Retrieves the list of agents attached to a disaster.
+
+----------
+
+### [DisasterRegistry.sol](https://giant-half-dual-testnet.explorer.testnet.skalenodes.com/address/0x0948e40e40860A02956E70E814c8C5088f4049E0)
+
+The `DisasterRegistry` contract handles disaster reporting and proximity-based disaster tracking. It creates new disaster entries or attaches new agents to existing disasters based on geographic proximity.
+
+**Key Features**:
+
+-   **reportDisaster**: Registers a new disaster or attaches agents to an existing disaster.
+-   **findNearbyDisaster**: Uses a simplified distance formula to find nearby disasters based on coordinates.
+
+----------
+
+### [DisasterResponseDAO.sol](https://api.goldsky.com/api/public/project_cm0bmkexjt0n601ww47obci68/subgraphs/calypso/v0.0.6/gn)
+
+This contract governs the disaster response process. Agents can propose funding allocations and vote on critical actions to respond to disasters. A quorum and voting mechanism ensures decentralized decision-making.
+
+
+## **Agent Contracts Overview**
+
+The agent contracts facilitate the monitoring and reporting of disaster events at various levels (global, regional, and local).
+
+### [GlobalAgent.sol](https://api.goldsky.com/api/public/project_cm0bmkexjt0n601ww47obci68/subgraphs/calypso/v0.0.6/gn)
+
+-   **Purpose**: Monitors global news sources and reports global disasters.
+-   **Key Function**: `reportGlobalDisaster` collects disaster information from global sources.
+
+### [RegionalAgent.sol](https://api.goldsky.com/api/public/project_cm0bmkexjt0n601ww47obci68/subgraphs/calypso/v0.0.6/gn)
+
+-   **Purpose**: Focuses on regional communications to detect and report disasters specific to a region.
+-   **Key Function**: `reportRegionalDisaster` provides details about disasters affecting a region.
+
+### [LocalAgent.sol](https://api.goldsky.com/api/public/project_cm0bmkexjt0n601ww47obci68/subgraphs/calypso/v0.0.6/gn)
+
+-   **Purpose**: Operates on a local level, monitoring local sensors and drones for disaster situations.
+-   **Key Features**:
+    -   `updateDroneData`: Captures and updates drone data related to local disaster zones.
+    -   `reportDisaster`: Reports the disaster to the `DisasterRegistry` contract.
+
+----------
+
+By leveraging decentralized agents and a DAO-based governance system, this project provides a scalable, autonomous solution for disaster management on SKALE. For more details on the deployed contracts, visit the [subgraph](https://api.goldsky.com/api/public/project_cm0bmkexjt0n601ww47obci68/subgraphs/calypso/v0.0.6/gn).
