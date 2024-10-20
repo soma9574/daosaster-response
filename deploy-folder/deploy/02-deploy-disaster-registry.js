@@ -1,5 +1,5 @@
 const func = async function (hre) {
-  const { deployments, getNamedAccounts } = hre;
+  const { deployments, getNamedAccounts, ethers } = hre;
   const { deploy } = deployments;
   const { deployer } = await getNamedAccounts();
 
@@ -23,9 +23,9 @@ const func = async function (hre) {
   });
 
   // Deploy DisasterResponseDAO
-  const tokenAddress = "0x1234567890123456789012345678901234567890"; // Replace with actual token address
-  const quorum = 5; // Set the quorum for proposal execution
-  const votingPeriod = 86400; // Set the voting period in seconds (e.g., 1 day)
+  const tokenAddress = await deployMockToken(hre);
+  const quorum = 5;
+  const votingPeriod = 86400;
 
   const disasterResponseDAO = await deploy("DisasterResponseDAO", {
     from: deployer,
@@ -57,12 +57,12 @@ const func = async function (hre) {
   const sampleDisaster = await deploy("Disaster", {
     from: deployer,
     args: [
-      123456, // latitude
-      789012, // longitude
-      Math.floor(Date.now() / 1000), // timestamp
-      deployer, // first agent address
-      0, // AgentType.FirstResponder
-      disasterResponseDAO.address, // DAO address
+      123456,
+      789012,
+      Math.floor(Date.now() / 1000),
+      deployer,
+      0,
+      disasterResponseDAO.address,
     ],
     log: true,
   });
@@ -76,7 +76,35 @@ const func = async function (hre) {
   console.log("Individual address:", individual.address);
   console.log("DisasterRegistry address:", disasterRegistry.address);
   console.log("Sample Disaster address:", sampleDisaster.address);
+
+  // Return deployed contract addresses for testing
+  return {
+    globalAgent,
+    regionalAgent,
+    localAgent,
+    disasterResponseDAO,
+    humanOrganization,
+    individual,
+    disasterRegistry,
+    sampleDisaster,
+    tokenAddress,
+  };
 };
+
+// Helper function to deploy a mock token for testing
+async function deployMockToken(hre) {
+  const { deployments, getNamedAccounts } = hre;
+  const { deploy } = deployments;
+  const { deployer } = await getNamedAccounts();
+
+  const mockToken = await deploy("MockToken", {
+    from: deployer,
+    args: ["Mock Token", "MTK", ethers.utils.parseEther("1000000")],
+    log: true,
+  });
+
+  return mockToken.address;
+}
 
 module.exports = func;
 func.tags = [
@@ -88,4 +116,5 @@ func.tags = [
   "RegionalAgent",
   "LocalAgent",
   "Disaster",
+  "MockToken",
 ];
