@@ -31,28 +31,25 @@ This subgraph is built to index and query data related to the disaster managemen
 
 1.  **Install Dependencies**:
     
-
+    ```sh
+    yarn install
+    ``` 
     
-    `yarn install` 
+3.  **Code Generation**: Generate the necessary TypeScript files from the GraphQL schema:
     
-2.  **Code Generation**: Generate the necessary TypeScript files from the GraphQL schema:
-    
-    bash
-    
-    Copy code
-    
+  
     ```sh 
     yarn codegen
     ``` 
     
-3.  **Build the Subgraph**: Compile the subgraph files:
+4.  **Build the Subgraph**: Compile the subgraph files:
 
 
     ```sh 
     yarn build 
     ``` 
     
-4.  **Deploy**: Deploy the subgraph to a Graph node instance. You'll need to configure the deployment endpoint for The Graph:
+5.  **Deploy**: Deploy the subgraph to a Graph node instance. You'll need to configure the deployment endpoint for The Graph:
       ```sh
       yarn deploy
       ``` 
