@@ -1,0 +1,89 @@
+specVersion: 0.0.4
+description: Disaster Response Subgraph
+repository: https://github.com/your-github-username/disaster-response-subgraph
+schema:
+  file: ./schema.graphql
+features:
+  - nonFatalErrors
+  - grafting
+dataSources:
+  - kind: ethereum/contract
+    name: DisasterRegistry
+    network: skale
+    source:
+      abi: DisasterRegistry
+      address: '0xF706b3d39C0B4ffF3622323bdA35fF1FE031d8A0'
+      startBlock: 2313611
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      file: ./src/mappings/disaster-registry.ts
+      entities:
+        - Disaster
+        - Agent
+      abis:
+        - name: DisasterRegistry
+          file: ./abis/DisasterRegistry.json
+        - name: Disaster
+          file: ./abis/Disaster.json
+      eventHandlers:
+        - event: DisasterCreated(indexed uint256,address,int256,int256,uint256,uint8)
+          handler: handleDisasterCreated
+
+  - kind: ethereum/contract
+    name: DisasterResponseDAO
+    network: skale
+    source:
+      abi: DisasterResponseDAO
+      address: '0x3E625A41194b29029b7e1e75503CCCFf93497D52'
+      startBlock: 2312446
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      file: ./src/mappings/disaster-response-dao.ts
+      entities:
+        - Proposal
+        - Agent
+      abis:
+        - name: DisasterResponseDAO
+          file: ./abis/DisasterResponseDAO.json
+      eventHandlers:
+        - event: ProposalCreated(uint256,address,uint256,string)
+          handler: handleProposalCreated
+        - event: Voted(uint256,address,bool)
+          handler: handleVoted
+        - event: ProposalExecuted(uint256)
+          handler: handleProposalExecuted
+
+templates:
+  - name: Disaster
+    kind: ethereum/contract
+    network: skale
+    source:
+      abi: Disaster
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      file: ./src/mappings/disaster.ts
+      entities:
+        - Disaster
+        - Agent
+        - HumanOrganization
+        - Individual
+      abis:
+        - name: Disaster
+          file: ./abis/Disaster.json
+        - name: HumanOrganization
+          file: ./abis/HumanOrganization.json
+        - name: Individual
+          file: ./abis/Individual.json
+      eventHandlers:
+        - event: AgentAttached(indexed address,uint8)
+          handler: handleAgentAttached
+        - event: OrganizationAdded(indexed address,string,string)
+          handler: handleOrganizationAdded
+        - event: IndividualAdded(indexed address,string,string)
+          handler: handleIndividualAdded
