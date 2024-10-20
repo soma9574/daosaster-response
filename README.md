@@ -48,7 +48,7 @@ Below is the directory structure for the project. Each folder contains a specifi
 ### Folders:
 
 -   **agents/**
-    -   Contains the AI agents responsible for monitoring and reporting disasters.
+    -   Contains the AI agents responsible for monitoring and reporting disasters. These include a Phala and dstack based open-source LLM  in the `trusted-llm` folder that can use a docker-like container to run on any local machine, an open-source vision-language model `vlm_agent.py`, and an agent that monitors DAOsaster smart contracts to respond and look up relevant information to potentially confirm their reports `monitoring_agent.py`.
 -   **deploy-folder/**
     -   Includes smart contracts and deployment scripts for setting up the blockchain infrastructure.
 -   **smart-contracts(S+W)/**
