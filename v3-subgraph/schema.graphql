@@ -1,0 +1,42 @@
+type Disaster @entity {
+  id: ID!
+  disasterContract: Bytes!
+  latitude: BigInt!
+  longitude: BigInt!
+  timestamp: BigInt!
+  agents: [Agent!]! @derivedFrom(field: "disaster")
+}
+
+type Agent @entity {
+  id: ID!
+  agentType: BigInt!
+  disaster: Disaster!
+}
+
+type Proposal @entity {
+  id: ID!
+  proposer: Bytes!
+  amount: BigInt!
+  description: String!
+  executed: Boolean
+  votes: [Vote!]! @derivedFrom(field: "proposal")
+}
+
+type Vote @entity {
+  id: ID!
+  proposal: Proposal!
+  voter: Bytes!
+  inSupport: Boolean!
+}
+
+type HumanOrganization @entity {
+  id: ID!
+  name: String!
+  expertise: String!
+}
+
+type Individual @entity {
+  id: ID!
+  name: String!
+  skills: String!
+}
